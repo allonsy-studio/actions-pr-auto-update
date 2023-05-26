@@ -38,7 +38,7 @@
 	"scripts": {
 		"build": "tsc --noEmit && node esbuild.config.js",
 		"clean": "rm -rf bin",
-		"coverage": "echo '🚧 Tests coming soon'",
+		"coverage": "jest --coverage",
 		"format": "npm-run-all \"lint:pretty --write -- *\" --parallel \"lint:eslint --fix -- src/*.ts *.js *.json\" \"lint:md --fix -- *.md\"",
 		"lint": "npm-run-all \"lint:pretty --check -- *\" --parallel \"lint:eslint -- src/*.ts *.js *.json\" \"lint:md -- *.md\"",
 		"lint:eslint": "eslint --cache --no-error-on-unmatched-pattern",
@@ -46,8 +46,8 @@
 		"lint:pretty": "prettier --no-error-on-unmatched-pattern --ignore-unknown --config .prettierrc.yml",
 		"precommit": "lint-staged",
 		"prepare": "husky && envoy || true",
-		"semantic-release": "semantic-release",
-		"test": "echo '🚧 Tests coming soon'"
+		"semantic-release": "npm-run-all clean build && semantic-release",
+		"test": "jest"
 	},
 	"dependencies": {
 		"@actions/core": "^3.0.1",
