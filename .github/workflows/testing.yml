@@ -11,7 +11,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Check out code
-              uses: actions/checkout@v8
+              uses: actions/checkout@v6
               with:
                   persist-credentials: false
 
@@ -25,7 +25,7 @@ jobs:
               run: yarn coverage
 
             - name: Upload coverage data
-              uses: actions/upload-artifact@v5
+              uses: actions/upload-artifact@v7
               with:
                   name: coverage-data-${{ github.run_id }}
                   path: |
