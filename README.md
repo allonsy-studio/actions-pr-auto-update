@@ -18,17 +18,17 @@ Drop this into `.github/workflows/pr-update.yml`:
 name: Pull request update
 
 on:
-  push:
-    branches: [main]
+    push:
+        branches: [main]
 
 jobs:
-  autoupdate:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - uses: castastrophe/actions-pr-auto-update@v3
+    autoupdate:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            pull-requests: write
+        steps:
+            - uses: castastrophe/actions-pr-auto-update@v3
 ```
 
 That's it. Defaults: 100 PRs/run, drafts skipped, no label filters, uses `github.token`.
@@ -39,30 +39,30 @@ That's it. Defaults: 100 PRs/run, drafts skipped, no label filters, uses `github
 name: Pull request update
 
 on:
-  push:
-    branches: [main]
+    push:
+        branches: [main]
 
 jobs:
-  autoupdate:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - name: Update ALL THE PRS! 🎉
-        uses: castastrophe/actions-pr-auto-update@v3
-        with:
-          # Token used for API calls. Defaults to github.token.
-          # Override only if you need cross-repo access or a higher rate limit.
-          token: ${{ secrets.USER_TOKEN }}
-          # Cap on PRs to update per run (default: 100). Sorted by most-recently-updated.
-          limit: 10
-          # Include open drafts in the update set (default: false).
-          include_drafts: true
-          # Comma-separated. If set, at least one match is required to update a PR.
-          include_labels: "update,update me"
-          # Comma-separated. If set, any match causes a PR to be skipped.
-          exclude_labels: "do not update,skip update"
+    autoupdate:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            pull-requests: write
+        steps:
+            - name: Update ALL THE PRS! 🎉
+              uses: castastrophe/actions-pr-auto-update@v3
+              with:
+                  # Token used for API calls. Defaults to github.token.
+                  # Override only if you need cross-repo access or a higher rate limit.
+                  token: ${{ secrets.USER_TOKEN }}
+                  # Cap on PRs to update per run (default: 100). Sorted by most-recently-updated.
+                  limit: 10
+                  # Include open drafts in the update set (default: false).
+                  include_drafts: true
+                  # Comma-separated. If set, at least one match is required to update a PR.
+                  include_labels: "update,update me"
+                  # Comma-separated. If set, any match causes a PR to be skipped.
+                  exclude_labels: "do not update,skip update"
 ```
 
 ### Scheduled runs
@@ -71,9 +71,9 @@ You can also run on a cron schedule — useful if pushes to `main` are infrequen
 
 ```yaml
 on:
-  schedule:
-    - cron: "0 */6 * * *"   # every 6 hours
-  workflow_dispatch:         # also allow manual triggers from the UI
+    schedule:
+        - cron: "0 */6 * * *" # every 6 hours
+    workflow_dispatch: # also allow manual triggers from the UI
 ```
 
 ### Consuming outputs
@@ -84,21 +84,21 @@ on:
 
 - name: Report results
   run: |
-    echo "Updated ${{ steps.pr-update.outputs.updated }} PRs"
-    echo "Failed ${{ steps.pr-update.outputs.failed }} PRs"
+      echo "Updated ${{ steps.pr-update.outputs.updated }} PRs"
+      echo "Failed ${{ steps.pr-update.outputs.failed }} PRs"
 ```
 
 ## Inputs
 
 Defined in [`action.yml`](action.yml).
 
-| Name             | Description                                                                                                                                                   | Default        |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| `token`          | Token used to perform API calls. Requires `pull-requests:write` access.                                                                                       | `github.token` |
-| `limit`          | Max number of pull requests to update per run. Pull requests are sorted by last updated date; the rest are deferred to the next run.                          | `100`          |
-| `include_drafts` | Whether to include draft pull requests.                                                                                                                       | `false`        |
-| `include_labels` | Comma-separated list of labels. If set, at least one **must** be present on the pull request for it to be updated.                                            |                |
-| `exclude_labels` | Comma-separated list of labels. If set, any match causes the pull request to be skipped.                                                                      |                |
+| Name             | Description                                                                                                                          | Default        |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------ | -------------- |
+| `token`          | Token used to perform API calls. Requires `pull-requests:write` access.                                                              | `github.token` |
+| `limit`          | Max number of pull requests to update per run. Pull requests are sorted by last updated date; the rest are deferred to the next run. | `100`          |
+| `include_drafts` | Whether to include draft pull requests.                                                                                              | `false`        |
+| `include_labels` | Comma-separated list of labels. If set, at least one **must** be present on the pull request for it to be updated.                   |                |
+| `exclude_labels` | Comma-separated list of labels. If set, any match causes the pull request to be skipped.                                             |                |
 
 Have ideas for additional features? [Open an issue](https://github.com/castastrophe/actions-pr-auto-update/issues/new).
 
