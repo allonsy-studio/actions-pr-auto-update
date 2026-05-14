@@ -20,12 +20,7 @@ const commitPartial = `\
 
 /** @type {import('semantic-release').GlobalConfig} */
 export default {
-	branches: [
-		{ name: "+([0-9])?(.{+([0-9]),x}).x", range: "1.x.x", channel: "v1" },
-		"main",
-		{ name: "beta", prerelease: true },
-		{ name: "alpha", prerelease: true },
-	],
+	branches: [{ name: "+([0-9])?(.{+([0-9]),x}).x", range: "1.x.x", channel: "v1" }, "main", { name: "beta", prerelease: true }, { name: "alpha", prerelease: true }],
 	plugins: [
 		[
 			"@semantic-release/commit-analyzer",
@@ -89,8 +84,7 @@ export default {
 			"@semantic-release/changelog",
 			{
 				changelogFile: "CHANGELOG.md",
-				changelogTitle:
-					"# Changelog\n\nAll notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.",
+				changelogTitle: "# Changelog\n\nAll notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.",
 			},
 		],
 		"@semantic-release/npm",
@@ -103,15 +97,8 @@ export default {
 		[
 			"@semantic-release/git",
 			{
-				assets: [
-					"bin/index.js",
-					"CHANGELOG.md",
-					"README.md",
-					"package.json",
-					"yarn.lock"
-				],
-				message:
-					"chore(release): <%= nextRelease.version %> [skip ci]\n\n<%= new Date().toLocaleDateString('en-GB', {year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) %>\n<%= nextRelease.notes %>",
+				assets: ["bin/index.js", "CHANGELOG.md", "README.md", "package.json", "yarn.lock"],
+				message: "chore(release): <%= nextRelease.version %> [skip ci]\n\n<%= new Date().toLocaleDateString('en-GB', {year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) %>\n<%= nextRelease.notes %>",
 			},
 		],
 	],

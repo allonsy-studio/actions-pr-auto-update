@@ -1,93 +1,100 @@
 {
-  "name": "@allons-y/actions-pr-auto-update",
-  "version": "1.1.0",
-  "description": "A configurable GitHub Action to keep pull requests up-to-date.",
-  "license": "MIT",
-  "author": "Cassondra Roberts <castastrophe@users.noreply.github.com> (https://allons-y.llc)",
-  "contributors": [
-    "Max Komarychev"
-  ],
-  "homepage": "https://github.com/castastrophe/actions-pr-auto-update#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/castastrophe/actions-pr-auto-update.git"
-  },
-  "bugs": {
-    "url": "https://github.com/castastrophe/actions-pr-auto-update/issues"
-  },
-  "main": "bin/index.js",
-  "files": [
-    "bin/index.js"
-  ],
-  "scripts": {
-    "build": "tsc && ncc build -o bin src/index.ts",
-    "clean": "rm -rf bin",
-    "coverage": "echo '🚧 Tests coming soon'",
-    "lint": "yarn lint-staged",
-    "precommit": "lint-staged",
-    "prepare": "husky && envoy || true",
-    "semantic-release": "semantic-release",
-    "test": "echo '🚧 Tests coming soon'"
-  },
-  "dependencies": {
-    "@actions/core": "^3.0.1",
-    "@actions/github": "^9.1.1"
-  },
-  "devDependencies": {
-    "@allons-y/envoy": "^1.1.0",
-    "@commitlint/cli": "^21.0.1",
-    "@commitlint/config-conventional": "^21.0.1",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^25.8.0",
-    "@typescript-eslint/eslint-plugin": "^8.59.3",
-    "@typescript-eslint/parser": "^8.59.3",
-    "@vercel/ncc": "^0.38.4",
-    "colors": "^1.4.0",
-    "eslint": "^10.3.0",
-    "eslint-plugin-jest": "^29.15.2",
-    "eslint-plugin-jsonc": "^3.1.2",
-    "eslint-plugin-node": "^11.1.0",
-    "husky": "^9.1.7",
-    "jest": "^30.4.2",
-    "jsonc-eslint-parser": "^3.1.0",
-    "lint-staged": "^17.0.4",
-    "markdownlint": "0.40.0",
-    "markdownlint-cli": "0.48.0",
-    "prettier": "^3.8.3",
-    "semantic-release": "^25.0.3",
-    "ts-jest": "^29.4.9",
-    "typescript": "^6.0.3"
-  },
-  "keywords": [
-    "actions",
-    "auto-update",
-    "github",
-    "pull-request",
-    "update"
-  ],
-  "engines": {
-    "node": ">=24"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
-  "funding": [
-    {
-      "type": "github",
-      "url": " https://github.com/sponsors/castastrophe"
-    },
-    {
-      "type": "buymeacoffee",
-      "url": "https://www.buymeacoffee.com/castastrophe"
-    }
-  ],
-  "lint-staged": {
-    "*": "prettier --write",
-    "package.json": "prettier-package-json --write",
-    "*.ts,__*__/*.ts": "eslint --fix"
-  },
-  "packageManager": "yarn@4.14.1"
+	"$schema": "https://www.schemastore.org/package.json",
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
+	"name": "@allons-y/actions-pr-auto-update",
+	"version": "1.1.0",
+	"description": "A configurable GitHub Action to keep pull requests up-to-date.",
+	"license": "MIT",
+	"author": "Cassondra Roberts <castastrophe@users.noreply.github.com> (https://allons-y.llc)",
+	"contributors": [
+		"Max Komarychev"
+	],
+	"homepage": "https://github.com/castastrophe/actions-pr-auto-update#readme",
+	"funding": [
+		{
+			"type": "github",
+			"url": " https://github.com/sponsors/castastrophe"
+		},
+		{
+			"type": "buymeacoffee",
+			"url": "https://www.buymeacoffee.com/castastrophe"
+		}
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/castastrophe/actions-pr-auto-update.git"
+	},
+	"bugs": {
+		"url": "https://github.com/castastrophe/actions-pr-auto-update/issues"
+	},
+	"type": "module",
+	"main": "bin/index.js",
+	"files": [
+		"bin/index.js"
+	],
+	"scripts": {
+		"build": "tsc && ncc build -o bin src/index.ts",
+		"clean": "rm -rf bin",
+		"coverage": "echo '🚧 Tests coming soon'",
+		"format": "npm-run-all \"lint:pretty --write -- *\" --parallel \"lint:eslint --fix -- src/*.ts *.js *.json\" \"lint:md --fix -- *.md\"",
+		"lint": "npm-run-all \"lint:pretty --check -- *\" --parallel \"lint:eslint -- src/*.ts *.js *.json\" \"lint:md -- *.md\"",
+		"lint:eslint": "eslint --cache --no-error-on-unmatched-pattern",
+		"lint:md": "markdownlint --config .markdownlint.json",
+		"lint:pretty": "prettier --no-error-on-unmatched-pattern --ignore-unknown --config .prettierrc.yml",
+		"precommit": "lint-staged",
+		"prepare": "husky && envoy || true",
+		"semantic-release": "semantic-release",
+		"test": "echo '🚧 Tests coming soon'"
+	},
+	"dependencies": {
+		"@actions/core": "^3.0.1",
+		"@actions/github": "^9.1.1"
+	},
+	"devDependencies": {
+		"@allons-y/envoy": "^1.1.0",
+		"@commitlint/cli": "^21.0.1",
+		"@commitlint/config-conventional": "^21.0.1",
+		"@eslint/js": "^10.0.1",
+		"@semantic-release/changelog": "^6.0.3",
+		"@semantic-release/git": "^10.0.1",
+		"@types/jest": "^30.0.0",
+		"@types/node": "^25.8.0",
+		"colors": "^1.4.0",
+		"eslint": "^10.3.0",
+		"eslint-plugin-jest": "^29.15.2",
+		"eslint-plugin-jsonc": "^3.1.2",
+		"eslint-plugin-node": "^11.1.0",
+		"globals": "^17.6.0",
+		"husky": "^9.1.7",
+		"jest": "^30.4.2",
+		"jsonc-eslint-parser": "^3.1.0",
+		"lint-staged": "^17.0.4",
+		"markdownlint": "0.40.0",
+		"markdownlint-cli": "0.48.0",
+		"npm-run-all": "^4.1.5",
+		"prettier": "^3.8.3",
+		"semantic-release": "^25.0.3",
+		"ts-jest": "^29.4.9",
+		"typescript": "^6.0.3",
+		"typescript-eslint": "^8.59.3"
+	},
+	"keywords": [
+		"actions",
+		"auto-update",
+		"github",
+		"pull-request",
+		"update"
+	],
+	"engines": {
+		"node": ">=24"
+	},
+	"lint-staged": {
+		"*": "yarn lint:pretty --write",
+		"*.md": "yarn lint:md --fix",
+		"*.{ts,js,json}": "yarn lint:eslint --fix"
+	},
+	"packageManager": "yarn@4.14.1"
 }

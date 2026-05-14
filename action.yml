@@ -1,36 +1,36 @@
 name: Auto-update pull requests
-description: 'Keep your pull requests up-to-date with a base branch ✨automatically✨'
-author: 'Cassondra Roberts <castastrophe@users.noreply.github.com> (https://allons-y.llc)'
+description: "Keep your pull requests up-to-date with a base branch ✨automatically✨"
+author: "Cassondra Roberts <castastrophe@users.noreply.github.com> (https://allons-y.llc)"
 inputs:
-  token:
-    required: false
-    description: 'Token used to perform API calls. The token will require `pull-requests:write` access.'
-    default: ${{ github.token }}
-  limit:
-    required: false
-    default: '100'
-    description: 'The number of pull requests to update. Once the limit is hit, any pull requests remaining will not be updated. Pull requests are sorted by last updated date.'
-  include_drafts:
-    required: false
-    default: 'false'
-    description: 'Whether or not to include draft pull requests that are currently open.'
-  include_labels:
-    required: false
-    description: 'A comma-separated list of labels, at least one of which **must** be present on the pull request to be updated. If no labels are present, all PRs will be updated.'
-  exclude_labels:
-    required: false
-    description: 'A comma-separated list of labels, where if at least one is present on the pull request to be updated, that PR will be skipped. If no labels are present, all PRs will be updated.'
+    token:
+        required: false
+        description: "Token used to perform API calls. The token will require `pull-requests:write` access."
+        default: ${{ github.token }}
+    limit:
+        required: false
+        default: "100"
+        description: "The number of pull requests to update. Once the limit is hit, any pull requests remaining will not be updated. Pull requests are sorted by last updated date."
+    include_drafts:
+        required: false
+        default: "false"
+        description: "Whether or not to include draft pull requests that are currently open."
+    include_labels:
+        required: false
+        description: "A comma-separated list of labels, at least one of which **must** be present on the pull request to be updated. If no labels are present, all PRs will be updated."
+    exclude_labels:
+        required: false
+        description: "A comma-separated list of labels, where if at least one is present on the pull request to be updated, that PR will be skipped. If no labels are present, all PRs will be updated."
 
 outputs:
-  updated:
-    description: 'The number of pull requests that were successfully updated.'
-  failed:
-    description: 'The number of pull requests that failed to update. This may be due to rate limiting, invalid tokens, or other issues. A failed pull request will not be retried.'
+    updated:
+        description: "The number of pull requests that were successfully updated."
+    failed:
+        description: "The number of pull requests that failed to update. This may be due to rate limiting, invalid tokens, or other issues. A failed pull request will not be retried."
 
 runs:
-  using: node24
-  main: bin/index.js
+    using: node24
+    main: bin/index.js
 
 branding:
-  icon: git-pull-request
-  color: purple
+    icon: git-pull-request
+    color: purple

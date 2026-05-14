@@ -83,7 +83,6 @@ level of the token owner.
 - [ ] Include a SHA check to ensure the pull request is not already up-to-date (or query for a needs-update flag?)
 - [ ] Explore a chron-job approach to avoid rate limiting issues and keep logs clean (e.g. run once a day)
 
-
 ## Contributing
 
 Contributions are welcome! Please open an [issue](https://github.com/castastrophe/postcss-custom-properties-mapping/issues/new) or submit a pull request.

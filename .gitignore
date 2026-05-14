@@ -1,12 +1,27 @@
+# Node modules
 /node_modules
+
+# Logs
 npm-debug.log
+yarn-error.log
+
+# OS generated files
 .DS_Store
+
+# Coverage
 coverage/
+
+# Environment variables
 .env
+
+# Built files
 bin/
 
+# Caches
+.eslintcache
+.yarn/cache
+
 # Yarn
-yarn-error.log
 .pnp.*
 .yarn/*
 !.yarn/patches

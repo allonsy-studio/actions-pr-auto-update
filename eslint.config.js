@@ -1,28 +1,20 @@
-import js from "@eslint/js";
-import ts from "@typescript-eslint/eslint-plugin";
-import jest from "eslint-plugin-jest";
-import jsonc from "eslint-plugin-jsonc";
 import { defineConfig } from "eslint/config";
 import globals from "globals";
+import js from "@eslint/js";
+import ts from "typescript-eslint";
+import jest from "eslint-plugin-jest";
+import jsonc from "eslint-plugin-jsonc";
 import * as jsoncParser from "jsonc-eslint-parser";
 
 export default defineConfig([
 	{
-		ignores: [
-			"**/dist/**",
-			"**/node_modules/**",
-			".yarn/**",
-			".cache/**",
-			"bin/**",
-		],
+		ignores: ["**/node_modules/**", ".yarn/**", ".cache/**", "bin/**"],
 	},
-
 	// ───────── TypeScript ─────────
-	{
-		...ts.configs.recommended,
+	...ts.configs.recommended.map((config) => ({
+		...config,
 		files: ["**/*.ts"],
-	},
-
+	})),
 	// ───────── JavaScript ─────────
 	{
 		...js.configs.recommended,
@@ -43,12 +35,8 @@ export default defineConfig([
 			},
 		},
 	},
-
-	// ───────── JSON / JSONC base ─────────
-	// Start from the plugin's flat `recommended-with-jsonc` config so we get rule
-	// defaults consistent with the legacy `plugin:jsonc/recommended-with-jsonc`.
-	// Each preset block is re-scoped to **/*.json so it doesn't bleed onto .js files.
-	...jsonc.configs["flat/recommended-with-jsonc"].map((config) => ({
+	// ───────── JSON ─────────
+	...jsonc.configs["recommended-with-json"].map((config) => ({
 		...config,
 		files: ["**/*.json"],
 	})),
@@ -63,17 +51,7 @@ export default defineConfig([
 				{
 					pathPattern: ".*",
 					hasProperties: ["type"],
-					order: [
-						"$schema",
-						"extends",
-						"type",
-						"properties",
-						"items",
-						"required",
-						"minItems",
-						"additionalProperties",
-						"additionalItems",
-					],
+					order: ["$schema", "extends", "type", "properties", "items", "required", "minItems", "additionalProperties", "additionalItems"],
 				},
 				{
 					pathPattern: ".*",
@@ -82,7 +60,6 @@ export default defineConfig([
 			],
 		},
 	},
-
 	// ───────── package.json ─────────
 	{
 		files: ["package.json"],
@@ -91,50 +68,7 @@ export default defineConfig([
 				"warn",
 				{
 					pathPattern: "^$",
-					order: [
-						"$schema",
-						"private",
-						"name",
-						"version",
-						"description",
-						"license",
-						"author",
-						"maintainers",
-						"contributors",
-						"homepage",
-						"repository",
-						"bugs",
-						"type",
-						"exports",
-						"main",
-						"module",
-						"browser",
-						"man",
-						"preferGlobal",
-						"bin",
-						"files",
-						"directories",
-						"scripts",
-						"config",
-						"sideEffects",
-						"types",
-						"typings",
-						"workspaces",
-						"resolutions",
-						"dependencies",
-						"bundleDependencies",
-						"bundledDependencies",
-						"peerDependencies",
-						"peerDependenciesMeta",
-						"optionalDependencies",
-						"devDependencies",
-						"keywords",
-						"engines",
-						"engineStrict",
-						"os",
-						"cpu",
-						"publishConfig",
-					],
+					order: ["$schema", "private", "publishConfig", "name", "version", "description", "license", "author", "maintainers", "contributors", "homepage", "funding", "repository", "bugs", "type", "exports", "main", "module", "browser", "man", "preferGlobal", "bin", "files", "directories", "scripts", "config", "sideEffects", "types", "typings", "workspaces", "resolutions", "dependencies", "bundleDependencies", "bundledDependencies", "peerDependencies", "peerDependenciesMeta", "optionalDependencies", "devDependencies", "keywords", "engines", "engineStrict", "os", "cpu", "*", "packageManager"],
 				},
 				{ pathPattern: "^repository$", order: ["type", "url", "directory"] },
 				{ pathPattern: "^vague$", order: { type: "asc" } },
