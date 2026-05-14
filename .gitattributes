@@ -1,4 +1,9 @@
 * text=auto eol=lf
+README.md merge=ours
 
 # don't diff machine generated files
 bin/index.js -diff
+
+# Treat yarn assets as binaries for diffing
+/.yarn/releases/** binary
+/.yarn/plugins/** binary

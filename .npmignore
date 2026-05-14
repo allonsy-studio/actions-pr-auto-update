@@ -6,3 +6,5 @@ npm-debug.log
 __mocks__
 __tests__
 coverage
+src
+*config.js*

@@ -1,5 +1,5 @@
 {
-  "name": "actions-pr-auto-update",
+  "name": "@allons-y/actions-pr-auto-update",
   "version": "1.1.0",
   "description": "A configurable GitHub Action to keep pull requests up-to-date.",
   "license": "MIT",
@@ -25,37 +25,40 @@
     "coverage": "echo '🚧 Tests coming soon'",
     "lint": "yarn lint-staged",
     "precommit": "lint-staged",
-    "prepare": "husky || true",
+    "prepare": "husky && envoy || true",
     "semantic-release": "semantic-release",
     "test": "echo '🚧 Tests coming soon'"
   },
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.1"
+    "@actions/core": "^3.0.1",
+    "@actions/github": "^9.1.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.1.0",
-    "@commitlint/config-conventional": "^20.0.0",
+    "@allons-y/envoy": "^1.1.0",
+    "@commitlint/cli": "^21.0.1",
+    "@commitlint/config-conventional": "^21.0.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.10.0",
-    "@typescript-eslint/eslint-plugin": "^8.46.3",
-    "@typescript-eslint/parser": "^8.46.3",
+    "@types/node": "^25.8.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.3",
+    "@typescript-eslint/parser": "^8.59.3",
     "@vercel/ncc": "^0.38.4",
     "colors": "^1.4.0",
-    "eslint": "^9.39.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-jest": "^29.0.1",
+    "eslint": "^10.3.0",
+    "eslint-plugin-jest": "^29.15.2",
+    "eslint-plugin-jsonc": "^3.1.2",
     "eslint-plugin-node": "^11.1.0",
     "husky": "^9.1.7",
-    "jest": "^30.2.0",
-    "lint-staged": "^16.2.6",
-    "prettier": "^3.6.2",
-    "prettier-package-json": "^2.8.0",
-    "semantic-release": "^25.0.1",
-    "ts-jest": "^29.4.5",
-    "typescript": "^5.9.3"
+    "jest": "^30.4.2",
+    "jsonc-eslint-parser": "^3.1.0",
+    "lint-staged": "^17.0.4",
+    "markdownlint": "0.40.0",
+    "markdownlint-cli": "0.48.0",
+    "prettier": "^3.8.3",
+    "semantic-release": "^25.0.3",
+    "ts-jest": "^29.4.9",
+    "typescript": "^6.0.3"
   },
   "keywords": [
     "actions",
@@ -65,7 +68,7 @@
     "update"
   ],
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "publishConfig": {
     "access": "public",
@@ -86,5 +89,5 @@
     "package.json": "prettier-package-json --write",
     "*.ts,__*__/*.ts": "eslint --fix"
   },
-  "packageManager": "yarn@4.10.3"
+  "packageManager": "yarn@4.14.1"
 }

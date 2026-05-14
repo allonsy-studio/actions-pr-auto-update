@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: main
+    branches: [main]
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Enable Corepack
         run: corepack enable
@@ -20,22 +20,37 @@ jobs:
       - name: Use Node LTS version
         uses: actions/setup-node@v6
         with:
+          node-version-file: .nvmrc
           cache: yarn
-          node-version: 22
 
       ## --- YARN CACHE --- ##
       - name: Check for cached dependencies
         continue-on-error: true
         id: cache-dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
-            .cache/yarn
+            .yarn/cache
             node_modules
-          key: ubuntu-latest-node22-stylelint16-${{ hashFiles('yarn.lock') }}
+          key: ubuntu-latest-node24-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
         run: yarn install --immutable
 
       - name: Run build
         run: yarn build
+
+      # This step will evaluate the repo status and report the change
+      # If there are changes, capture the changes and upload them as an artifact
+      - name: Check if there are changes
+        shell: bash
+        run: |
+          if [[ -z $(git status --porcelain) ]]; then
+              echo "No changes detected"
+              exit 0
+          else
+              echo "Changes detected"
+              git status
+              git add .
+              exit 1
+          fi
