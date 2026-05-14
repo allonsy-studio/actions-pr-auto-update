@@ -1,0 +1,19 @@
+name: Setup
+description: Enable Corepack, set up Node, and install yarn dependencies. Assumes the repo is already checked out.
+
+runs:
+    using: composite
+    steps:
+        - name: Enable Corepack
+          shell: bash
+          run: corepack enable
+
+        - name: Use Node LTS version
+          uses: actions/setup-node@v7
+          with:
+              node-version-file: .nvmrc
+              cache: yarn
+
+        - name: Install dependencies
+          shell: bash
+          run: yarn install --immutable

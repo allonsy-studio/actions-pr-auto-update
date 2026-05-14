@@ -1,0 +1,27 @@
+name: 📚 Documentation issue
+description: Report missing, unclear, or incorrect documentation
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Where in the docs?
+      description: Link or path to the section with the problem (e.g. `README.md#inputs`).
+      placeholder: README.md#inputs
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's wrong or missing?
+      description: Describe what's unclear, inaccurate, or absent.
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested improvement
+      description: Optional — propose specific wording or structure changes.

@@ -1,91 +1,144 @@
 # Auto-update pull requests
 
-[![Basic validation](https://github.com/castastrophe/actions-pr-auto-update/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/castastrophe/actions-pr-auto-update/actions/workflows/build.yml)
+A configurable GitHub Action that keeps your open pull requests in sync with their base branch.
 
-```yml
-uses: castastrophe/actions-pr-auto-update@v2.0.0
-```
+[![Build](https://github.com/castastrophe/actions-pr-auto-update/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/castastrophe/actions-pr-auto-update/actions/workflows/build.yml)
+[![Testing](https://github.com/castastrophe/actions-pr-auto-update/actions/workflows/testing.yml/badge.svg?branch=main)](https://github.com/castastrophe/actions-pr-auto-update/actions/workflows/testing.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-The goal of this action is to update pull requests when the target branch is updated. This is useful when you have long-running pull requests that are not yet ready to be merged, but you want to keep it up-to-date with the target branch. Several customizations are available to control which pull requests are updated. Bot pull requests such as dependabot and closed pull requests are always ignored.
+When you merge to `main` (or push to any long-lived branch), every open PR targeting that branch falls behind. This action picks them up and runs GitHub's "Update branch" API on each one, so your contributors don't have to. Bot PRs (Dependabot et al.), closed PRs, and — by default — drafts are skipped. Label-based include/exclude rules let you scope it further.
 
-This project was forked from the cited repo below. This fork focuses on adding additional configurations and modernizing the tools and dependencies. <sup>[1](#citations)</sup>
+This project was originally forked from [maxkomarychev/pr-updater-action](https://github.com/maxkomarychev/pr-updater-action) and has since diverged substantially — modernized tooling, broader filter support, output reporting, and a step summary.
 
-## Usage
+## Quickstart
 
-For this action to run, you will need to ensure the access token used includes permission to update pull requests. This can be done by creating a [personal access token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) with the `pull-requests:write` scope. This token can then be added as a [repository secret](https://docs.github.com/en/actions/reference/encrypted-secrets) and referenced in the workflow.
+Drop this into `.github/workflows/pr-update.yml`:
 
-Create a new workflow file in your repository (e.g. `.github/workflows/pr-update.yml`).
-
-```yml
+```yaml
 name: Pull request update
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches: [main]
 
 jobs:
-    autoupdate:
-        runs-on: ubuntu-latest
-        permissions:
-            pull-requests: write
-        steps:
-        - uses: actions/checkout@v3
-        - name: Update ALL THE PRS! 🎉
-            uses: castastrophe/actions-pr-auto-update
-            with:
-                # defaults to github.token
-                token: ${{ secrets.USER_TOKEN }}
-                # Optional: include a limit to the number of PRs to update (default is 100)
-                limit: 10
-                # Optional: set this to true if you want to include draft PRs in those to be updated
-                include_drafts: true
-                # Optional: include a list of labels which, if present, will prevent the PR from being updated; these are comma-separated.
-                exclude_labels: "do not update,skip update"
-                # Optional: include a list of labels, at least one of which are required to be present for the PR to be updated; these are comma-separated.
-                include_labels: "update,update me"
+  autoupdate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: castastrophe/actions-pr-auto-update@v3
 ```
 
-Once this is in place, every time a commit is pushed to one of the branches specified in your workflow, all pull requests targeting that branch (and that fall within the configured parameters) will be updated.
+That's it. Defaults: 100 PRs/run, drafts skipped, no label filters, uses `github.token`.
 
-### Inputs
+## Full configuration
 
-Various inputs are defined in [`action.yml`](action.yml) to let you configure this action:
+```yaml
+name: Pull request update
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  autoupdate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Update ALL THE PRS! 🎉
+        uses: castastrophe/actions-pr-auto-update@v3
+        with:
+          # Token used for API calls. Defaults to github.token.
+          # Override only if you need cross-repo access or a higher rate limit.
+          token: ${{ secrets.USER_TOKEN }}
+          # Cap on PRs to update per run (default: 100). Sorted by most-recently-updated.
+          limit: 10
+          # Include open drafts in the update set (default: false).
+          include_drafts: true
+          # Comma-separated. If set, at least one match is required to update a PR.
+          include_labels: "update,update me"
+          # Comma-separated. If set, any match causes a PR to be skipped.
+          exclude_labels: "do not update,skip update"
+```
+
+### Scheduled runs
+
+You can also run on a cron schedule — useful if pushes to `main` are infrequent but PRs still drift:
+
+```yaml
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # every 6 hours
+  workflow_dispatch:         # also allow manual triggers from the UI
+```
+
+### Consuming outputs
+
+```yaml
+- id: pr-update
+  uses: castastrophe/actions-pr-auto-update@v3
+
+- name: Report results
+  run: |
+    echo "Updated ${{ steps.pr-update.outputs.updated }} PRs"
+    echo "Failed ${{ steps.pr-update.outputs.failed }} PRs"
+```
+
+## Inputs
+
+Defined in [`action.yml`](action.yml).
 
 | Name             | Description                                                                                                                                                   | Default        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| `token`          | Token used to perform API calls. The token will require `pull-requests:write` access.                                                                         | `github.token` |
-| `limit`          | The number of pull requests to update. Once the limit is hit, any pull requests remaining will not be updated. Pull requests are sorted by last updated date. | `100`          |
-| `include_drafts` | Whether or not to include draft pull rqeuests that are currently open.                                                                                        | `false`        |
-| `include_labels` | A comma-separated list of labels, at least one of which **must** be present on the pull request to be updated. If no labels are present, PR will be skipped.  |                |
-| `exclude_labels` | A comma-separated list of labels, where if at least one is present on the pull request to be updated, that PR will be skipped.                                |                |
+| `token`          | Token used to perform API calls. Requires `pull-requests:write` access.                                                                                       | `github.token` |
+| `limit`          | Max number of pull requests to update per run. Pull requests are sorted by last updated date; the rest are deferred to the next run.                          | `100`          |
+| `include_drafts` | Whether to include draft pull requests.                                                                                                                       | `false`        |
+| `include_labels` | Comma-separated list of labels. If set, at least one **must** be present on the pull request for it to be updated.                                            |                |
+| `exclude_labels` | Comma-separated list of labels. If set, any match causes the pull request to be skipped.                                                                      |                |
 
-Have ideas for additional features? [Open an issue](https://github.com/castastrophe/actions-pr-auto-update/issues)!
+Have ideas for additional features? [Open an issue](https://github.com/castastrophe/actions-pr-auto-update/issues/new).
 
-### Outputs
-
-Outputs are defined in [`action.yml`](action.yml) to let you access information about the action after it has run:
+## Outputs
 
 | Name      | Description                                        |
 | --------- | -------------------------------------------------- |
 | `updated` | The number of pull requests that were updated.     |
 | `failed`  | The number of pull requests that failed to update. |
 
+## How it works
+
+1. **List** open pull requests targeting the pushed branch, paginated (100/page), sorted by most recently updated.
+2. **Filter** each PR: skip bots (Dependabot + any `user.type === "Bot"`), drafts (unless `include_drafts: true`), and label include/exclude rules.
+3. **Update in parallel** — calls GitHub's [Update pull request branch](https://docs.github.com/en/rest/pulls/pulls#update-a-pull-request-branch) API for each survivor, passing `expected_head_sha` for safety against concurrent pushes.
+4. **Report** outputs (`updated`, `failed`) and write a markdown step summary to the workflow run.
+5. **Fail loud** if every update fails, but allow partial-failure runs to succeed (so one stale PR doesn't tank the rest).
+
+## Versioning
+
+This action follows [Semantic Versioning](https://semver.org). Major versions are exposed as floating tags (e.g. `v3`) so you can opt into all non-breaking updates with a single pin. Examples:
+
+- `@v3` — latest 3.x.x (recommended for most users)
+- `@v3.0.0` — exact version (recommended if you pin via digest or want zero-churn updates)
+
+Breaking changes go in a new major. Minor and patch releases are documented in the [CHANGELOG](CHANGELOG.md).
+
 ## Limitations
 
-Due to [rate limiting](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting) user
-token can only perform 5,000 requests per hour. This limit will vary based on the type of token used and the account
-level of the token owner.
+GitHub's REST API is [rate-limited](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting) — typically 5,000 requests/hour for user tokens. Each PR update consumes one request; the listing call consumes one per 100 PRs. For most repos this is irrelevant, but `limit` exists to bound API spend on very large repos.
 
-## Future work
+## Roadmap
 
-- [ ] Add support for rebasing pull requests instead of merging
-- [ ] Include a SHA check to ensure the pull request is not already up-to-date (or query for a needs-update flag?)
-- [ ] Explore a chron-job approach to avoid rate limiting issues and keep logs clean (e.g. run once a day)
+- [ ] Optional rebase strategy instead of merge
+- [ ] Skip PRs already ahead of base (currently every match is poked, GitHub's API short-circuits if no-op)
+- [ ] Configurable concurrency cap (currently all updates fire in parallel)
 
 ## Contributing
 
-Contributions are welcome! Please open an [issue](https://github.com/castastrophe/postcss-custom-properties-mapping/issues/new) or submit a pull request.
+Contributions are welcome! Please open an [issue](https://github.com/castastrophe/actions-pr-auto-update/issues/new) or submit a pull request.
 
 ## License
 
@@ -93,10 +146,6 @@ This project is licensed under the [MIT license](LICENSE).
 
 ## Funding ☕️
 
-If you find this plugin useful and would like to buy me a coffee/beer as a small thank you, I would greatly appreciate it! Funding links are available in the GitHub UI for this repo.
+If you find this action useful and would like to buy me a coffee/beer as a small thank you, I would greatly appreciate it. Funding links are available in the GitHub UI for this repo.
 
 <a href="https://www.buymeacoffee.com/castastrophe" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
-
-## Citations
-
-<sup>[1]</sup> <ins>Forked from:</ins> [maxkomarychev/pr-updater-action](https://github.com/maxkomarychev/pr-updater-action)

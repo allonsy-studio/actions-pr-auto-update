@@ -1,0 +1,60 @@
+name: 🐛 Bug report
+description: Report a problem with this action
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug. The more concrete the repro, the faster the fix.
+
+  - type: input
+    id: version
+    attributes:
+      label: Action version
+      description: Which tag, branch, or commit SHA were you using? (e.g. `v3`, `v3.0.0`, `main`)
+      placeholder: v3
+    validations:
+      required: true
+
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Workflow snippet
+      description: Paste the relevant section of your `.github/workflows/*.yml` (or a minimal reproducer). Redact any secrets.
+      render: yaml
+      placeholder: |
+        - uses: castastrophe/actions-pr-auto-update@v3
+          with:
+            limit: 10
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect the action to do?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened instead? Include error messages and a link to the failing Actions run if it's public.
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Paste any error output or relevant log lines. (Wrap long output in `<details>` if needed.)
+      render: text
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Anything else worth knowing — repo characteristics, unusual permissions setup, custom token, etc.

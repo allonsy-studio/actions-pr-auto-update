@@ -1,23 +1,3 @@
-/**
- * Handlebars partial for a single commit entry.
- *
- * Renders the subject line with an optional scope prefix and a commit link,
- * then appends the commit body as an indented paragraph when present. This
- * makes changelogs read as prose rather than bare commit subjects.
- *
- * The tilde (~) strips whitespace between Handlebars tags so the output
- * does not accumulate extra blank lines from the template itself.
- */
-const commitPartial = `\
-*{{#if scope}} **{{scope}}:**{{~/if}} \
-{{~#if subject}}{{subject}}{{else}}{{header}}{{/if}} \
-{{~#if @root.linkReferences}} ([{{shortHash}}]({{commitUrlFormat}})){{else}} {{shortHash}}{{/if}}
-{{#if body}}
-
-{{body}}
-
-{{/if}}`;
-
 /** @type {import('semantic-release').GlobalConfig} */
 export default {
 	plugins: [
@@ -76,7 +56,18 @@ export default {
 						},
 					],
 				},
-				writerOpts: { commitPartial },
+				writerOpts: {
+					commitPartial: `
+*{{#if scope}} **{{scope}}:**{{~/if}}
+{{~#if subject}}{{subject}}{{else}}{{header}}{{/if}}
+{{~#if hash}}{{#if @root.linkReferences}} ([{{shortHash}}]({{commitUrlFormat}})){{else}} {{shortHash}}{{/if}}{{/if}}
+{{~#if references}}, closes{{#each references}} {{#if @root.linkReferences}}[#{{this.issue}}]({{issueUrlFormat this.issue}}){{else}}#{{this.issue}}{{/if}}{{#unless @last}}, {{/unless}}{{/each}}{{/if}}
+{{#if body}}
+
+{{body}}
+
+{{/if}}`,
+				},
 			},
 		],
 		[
@@ -97,6 +88,12 @@ export default {
 			{
 				assets: ["bin/index.js", "CHANGELOG.md", "README.md", "package.json", "yarn.lock"],
 				message: "chore(release): <%= nextRelease.version %> [skip ci]\n\n<%= new Date().toLocaleDateString('en-GB', {year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) %>\n<%= nextRelease.notes %>",
+			},
+		],
+		[
+			"@semantic-release/exec",
+			{
+				successCmd: 'MAJOR=$(echo "${nextRelease.gitTag}" | cut -d. -f1) && ' + 'git tag -f "$MAJOR" "${nextRelease.gitTag}" && ' + 'git remote set-url origin "https://x-access-token:$GH_TOKEN@github.com/$GITHUB_REPOSITORY.git" && ' + 'git push --force origin "refs/tags/$MAJOR"',
 			},
 		],
 	],

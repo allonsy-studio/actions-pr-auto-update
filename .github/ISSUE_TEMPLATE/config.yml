@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🙋 Question or support request
+    url: https://github.com/castastrophe/actions-pr-auto-update/discussions/new?category=q-a
+    about: Have a usage question? Start a discussion — please search existing threads first.
+  - name: 📖 Read the docs
+    url: https://github.com/castastrophe/actions-pr-auto-update#readme
+    about: The README covers configuration, scheduled runs, outputs, and common patterns.

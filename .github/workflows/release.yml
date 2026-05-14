@@ -1,49 +1,30 @@
 name: Release
 
 on:
-  push:
-    branches: [main]
+    push:
+        branches: [main]
 
 jobs:
     publish:
-      runs-on: ubuntu-latest
-      permissions: write-all
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
-      steps:
-        - name: Check out code
-          uses: actions/checkout@v6
-          with:
-            persist-credentials: false
-
-        - name: Enable Corepack
-          run: corepack enable
-
-        - name: Use Node LTS version
-          uses: actions/setup-node@v6
-          with:
-            cache: yarn
-            node-version-file: .nvmrc
-
-        ## --- YARN CACHE --- ##
-        - name: Check for cached dependencies
-          continue-on-error: true
-          id: cache-dependencies
-          uses: actions/cache@v5
-          with:
-            path: |
-              .yarn/cache
-              node_modules
-            key: ubuntu-latest-node24-${{ hashFiles('yarn.lock') }}
-
-        - name: Install dependencies
-          run: yarn install --immutable
-
-        - name: Run build
-          run: yarn build
-
-        - name: Semantic release
-          uses: cycjimmy/semantic-release-action@v6
-          env:
+        runs-on: ubuntu-latest
+        permissions: write-all
+        env:
             GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+        steps:
+            - name: Check out code
+              uses: actions/checkout@v8
+              with:
+                  persist-credentials: false
+
+            - name: Setup
+              uses: ./.github/actions/setup
+
+            - name: Run build
+              run: yarn ci
+
+            - name: Semantic release
+              uses: cycjimmy/semantic-release-action@v6
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+                  GH_TOKEN: ${{ secrets.GH_TOKEN }}

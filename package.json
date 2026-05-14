@@ -37,6 +37,7 @@
 	],
 	"scripts": {
 		"build": "tsc --noEmit && node esbuild.config.js",
+		"ci": "npm-run-all clean build",
 		"clean": "rm -rf bin",
 		"coverage": "jest --coverage",
 		"format": "npm-run-all \"lint:pretty --write -- *\" --parallel \"lint:eslint --fix -- src/*.ts *.js *.json\" \"lint:md --fix -- *.md\"",
@@ -60,6 +61,7 @@
 		"@eslint/js": "^10.0.1",
 		"@octokit/core": "^7.0.6",
 		"@semantic-release/changelog": "^6.0.3",
+		"@semantic-release/exec": "^7.1.0",
 		"@semantic-release/git": "^10.0.1",
 		"@types/jest": "^30.0.0",
 		"@types/node": "^25.8.0",
@@ -95,7 +97,8 @@
 	"lint-staged": {
 		"*": "yarn lint:pretty --write",
 		"*.md": "yarn lint:md --fix",
-		"*.{ts,js,json}": "yarn lint:eslint --fix"
+		"*.{ts,js,json}": "yarn lint:eslint --fix",
+		".github/renovate.json": "npx --yes --package renovate -- renovate-config-validator --strict"
 	},
 	"packageManager": "yarn@4.14.1"
 }

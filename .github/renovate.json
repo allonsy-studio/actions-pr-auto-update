@@ -1,12 +1,12 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"baseBranchPatterns": ["main"],
-	"extends": [
-		"config:recommended",
-		":widenPeerDependencies",
-		"group:githubArtifactActions"
-	],
-	"labels": [],
+	"extends": ["config:best-practices", "group:githubArtifactActions"],
+	"labels": ["dependencies", "renovate"],
+	"lockFileMaintenance": {
+		"enabled": true,
+		"extends": ["schedule:monthly"]
+	},
 	"packageRules": [
 		{
 			"matchDatasources": ["npm"],
@@ -15,12 +15,21 @@
 		{
 			"groupName": "commitlint ecosystem",
 			"matchPackageNames": ["commitlint", "@commitlint/*"]
+		},
+		{
+			"groupName": "jest ecosystem",
+			"matchPackageNames": ["jest", "ts-jest", "@types/jest", "@jest/*"]
+		},
+		{
+			"groupName": "eslint ecosystem",
+			"matchPackageNames": ["eslint", "typescript-eslint", "@eslint/*", "eslint-plugin-*"]
+		},
+		{
+			"groupName": "semantic-release ecosystem",
+			"matchPackageNames": ["semantic-release", "@semantic-release/*"]
 		}
 	],
+	"postUpdateOptions": ["yarnDedupeHighest"],
 	"rebaseWhen": "behind-base-branch",
-	"reviewers": ["castastrophe"],
-	"lockFileMaintenance": {
-		"enabled": true,
-		"extends": ["schedule:monthly"]
-	}
+	"reviewers": ["castastrophe"]
 }

@@ -27,12 +27,19 @@ export default defineConfig([
 		},
 	},
 	{
-		...jest.configs.recommended,
-		files: ["**/*.test.js"],
+		...jest.configs["flat/recommended"],
+		files: ["**/*.test.js", "**/*.test.ts"],
 		languageOptions: {
 			globals: {
 				...globals.jest,
 			},
+		},
+	},
+	// ───────── Tests & mocks: allow `any` for fixture/cast helpers ─────────
+	{
+		files: ["**/*.test.ts", "__mocks__/**/*.ts"],
+		rules: {
+			"@typescript-eslint/no-explicit-any": "off",
 		},
 	},
 	// ───────── JSON ─────────

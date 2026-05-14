@@ -1,14 +1,24 @@
-<!-- Summarize your changes in the Title field -->
+<!-- Summarize your change in the PR title using conventional commit format (e.g. "feat: add ..."). -->
 
-<!--
-  Note: Before sending a pull request, make sure there's an issue for what you're changing
--->
+## What
 
-# Description
-<!-- Describe what you changed and link to the relevant issue(s) (e.g., #000) -->
+<!-- One-line summary of the change. -->
 
-## To-do list
+## Why
 
-- [ ] I added appropriate tests for my changes.
-- [ ] If my change impacts documentation, I have updated the documentation accordingly.
-- [ ] I have read the [CONTRIBUTING document](/.github/CONTRIBUTING.md).
+<!-- Motivation. Link any related issue (e.g. closes #123). For substantive changes, an issue is appreciated; small fixes can skip it. -->
+
+## How
+
+<!-- Implementation notes — especially anything non-obvious about the approach. -->
+
+## Test plan
+
+<!-- How you verified the change works. Paste relevant test output or describe the manual steps. -->
+
+---
+
+- [ ] Tests added or updated (`yarn test`)
+- [ ] Lint clean (`yarn lint`)
+- [ ] Documentation updated where relevant (README, action.yml — CHANGELOG is handled by semantic-release)
+- [ ] Conventional commit format used (enforced by commitlint — see [CONTRIBUTING.md](CONTRIBUTING.md))

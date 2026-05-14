@@ -6,13 +6,11 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### ⚠ BREAKING CHANGES
 
-* upgrade to Node 24, Yarn 4.14.1, and major dependency versions (#33)
+- upgrade to Node 24, Yarn 4.14.1, and major dependency versions (#33)
 
 ### ✨ Features
 
-*upgrade to Node 24, Yarn 4.14.1, and major dependency versions ([#33](https://github.com/castastrophe/actions-pr-auto-update/issues/33)) ([b50cde2]())
-
-* feat!: upgrade to Node 24, Yarn 4.14.1, and major dependency versions
+\*upgrade to Node 24, Yarn 4.14.1, and major dependency versions ([#33](https://github.com/castastrophe/actions-pr-auto-update/issues/33)) ([b50cde2](https://github.com/castastrophe/actions-pr-auto-update/commit/b50cde2148c9a3ab6c50c33eda1650debb204593))
 
 - Bump Node runtime from 22 to 24 (action.yml `using: node24`, `.nvmrc`, `engines`)
 - Upgrade Yarn to 4.14.1 and bundle the release cjs in `.yarn/releases/`
