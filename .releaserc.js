@@ -87,7 +87,6 @@ export default {
 				changelogTitle: "# Changelog\n\nAll notable changes to this project will be documented in this file. See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.",
 			},
 		],
-		"@semantic-release/npm",
 		[
 			"@semantic-release/github",
 			{

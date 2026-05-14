@@ -1,12 +1,14 @@
 {
 	"compilerOptions": {
 		"esModuleInterop": true,
-		"module": "commonjs",
+		"lib": ["ESNext"],
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
 		"noImplicitAny": false,
-		"outDir": "./bin",
 		"rootDir": "./src",
+		"skipLibCheck": true,
 		"strict": true,
-		"target": "es6"
+		"target": "esnext"
 	},
 	"exclude": ["node_modules", "__tests__", "__mocks__"]
 }

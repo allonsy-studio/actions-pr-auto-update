@@ -4,7 +4,7 @@
 		"access": "public",
 		"registry": "https://registry.npmjs.org/"
 	},
-	"name": "@allons-y/actions-pr-auto-update",
+	"name": "actions-pr-auto-update",
 	"version": "1.1.0",
 	"description": "A configurable GitHub Action to keep pull requests up-to-date.",
 	"license": "MIT",
@@ -36,7 +36,7 @@
 		"bin/index.js"
 	],
 	"scripts": {
-		"build": "tsc && ncc build -o bin src/index.ts",
+		"build": "tsc --noEmit && node esbuild.config.js",
 		"clean": "rm -rf bin",
 		"coverage": "echo '🚧 Tests coming soon'",
 		"format": "npm-run-all \"lint:pretty --write -- *\" --parallel \"lint:eslint --fix -- src/*.ts *.js *.json\" \"lint:md --fix -- *.md\"",
@@ -58,11 +58,12 @@
 		"@commitlint/cli": "^21.0.1",
 		"@commitlint/config-conventional": "^21.0.1",
 		"@eslint/js": "^10.0.1",
+		"@octokit/core": "^7.0.6",
 		"@semantic-release/changelog": "^6.0.3",
 		"@semantic-release/git": "^10.0.1",
 		"@types/jest": "^30.0.0",
 		"@types/node": "^25.8.0",
-		"colors": "^1.4.0",
+		"esbuild": "^0.28.0",
 		"eslint": "^10.3.0",
 		"eslint-plugin-jest": "^29.15.2",
 		"eslint-plugin-jsonc": "^3.1.2",
