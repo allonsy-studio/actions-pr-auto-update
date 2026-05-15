@@ -14,9 +14,6 @@ coverage/
 # Environment variables
 .env
 
-# Built files
-bin/
-
 # Caches
 .eslintcache
 .yarn/cache
