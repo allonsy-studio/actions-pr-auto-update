@@ -59,13 +59,6 @@ export default async function run(client: Octokit, context: typeof Context): Pro
 		return;
 	}
 
-	await client.rest.users.getAuthenticated().catch((error: Error) => {
-		core.setFailed(`Failed to authenticate with the GitHub API: ${error.message}`);
-		throw error;
-	});
-
-	core.info("Successfully authenticated with the GitHub API.");
-
 	const baseBranch = getBaseBranch(context);
 	const rawLimit = core.getInput("limit");
 	const limit = rawLimit ? Math.max(1, Number.parseInt(rawLimit, 10)) : 100;

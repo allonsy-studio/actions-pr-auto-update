@@ -44,21 +44,20 @@ function makeClient(
 	opts: {
 		pages?: MockPR[][];
 		updateBranch?: ReturnType<typeof jest.fn>;
-		getAuthenticated?: ReturnType<typeof jest.fn>;
+		iterator?: ReturnType<typeof jest.fn>;
 	} = {},
 ) {
 	const pages = opts.pages ?? [[]];
 	const list = jest.fn<(...args: any[]) => any>();
-	const iterator = jest.fn<(...args: any[]) => any>().mockImplementation(async function* () {
-		for (const page of pages) {
-			yield { data: page };
-		}
-	});
+	const iterator =
+		opts.iterator ??
+		jest.fn<(...args: any[]) => any>().mockImplementation(async function* () {
+			for (const page of pages) {
+				yield { data: page };
+			}
+		});
 	return {
 		rest: {
-			users: {
-				getAuthenticated: opts.getAuthenticated ?? jest.fn<(...args: any[]) => any>().mockResolvedValue({ data: { login: "bot" } }),
-			},
 			pulls: {
 				list,
 				updateBranch: opts.updateBranch ?? jest.fn<(...args: any[]) => any>().mockResolvedValue({ status: 202, data: {} }),
@@ -91,7 +90,6 @@ describe("run", () => {
 			const client = makeClient();
 			await run(client, makeContext({ eventName: "delete" }));
 
-			expect(client.rest.users.getAuthenticated).not.toHaveBeenCalled();
 			expect(client.paginate.iterator).not.toHaveBeenCalled();
 			expect(client.rest.pulls.updateBranch).not.toHaveBeenCalled();
 			expect(core.setOutput).toHaveBeenCalledWith("updated", 0);
@@ -99,14 +97,16 @@ describe("run", () => {
 		});
 	});
 
-	describe("authentication", () => {
-		it("fails when authentication fails", async () => {
+	describe("api errors", () => {
+		it("propagates errors from listing pull requests", async () => {
 			const err = new Error("bad token");
-			const client = makeClient({ getAuthenticated: jest.fn<(...args: any[]) => any>().mockRejectedValue(err) });
+			const iterator = jest.fn<(...args: any[]) => any>().mockImplementation(async function* () {
+				throw err;
+			});
+			const client = makeClient({ iterator });
 
 			await expect(run(client, makeContext())).rejects.toThrow("bad token");
-			expect(core.setFailed).toHaveBeenCalledWith(expect.stringContaining("bad token"));
-			expect(client.paginate.iterator).not.toHaveBeenCalled();
+			expect(client.rest.pulls.updateBranch).not.toHaveBeenCalled();
 		});
 	});
 
