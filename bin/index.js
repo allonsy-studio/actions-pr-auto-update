@@ -23818,11 +23818,6 @@ async function run(client2, context3) {
     report(0, 0);
     return;
   }
-  await client2.rest.users.getAuthenticated().catch((error2) => {
-    setFailed(`Failed to authenticate with the GitHub API: ${error2.message}`);
-    throw error2;
-  });
-  info("Successfully authenticated with the GitHub API.");
   const baseBranch = getBaseBranch(context3);
   const rawLimit = getInput("limit");
   const limit = rawLimit ? Math.max(1, Number.parseInt(rawLimit, 10)) : 100;
