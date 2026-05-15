@@ -6,14 +6,13 @@ All notable changes to this project will be documented in this file. See [Conven
 
 ### ⚠ BREAKING CHANGES
 
-* upgrade to Node 24, Yarn 4.14.1, and major dependency versions (#33)
+Upgrade to Node 24, Yarn 4.14.1, and major dependency versions (#33)
 
 ### ✨ Features
 
+*add test suite, harden CI tooling, and refresh docs ([210ea83](210ea83a179aad8257590d3dd4fbe1f157470a83))
 
-*add test suite, harden CI tooling, and refresh docs ([210ea83]())
-
-**Tests**
+#### Tests
 
 - New Jest suite (20 tests, grouped by behavior) covering main.ts at
   100% statements / 91% branches / 100% lines.
@@ -21,7 +20,7 @@ All notable changes to this project will be documented in this file. See [Conven
 - Switch eslint to jest flat/recommended; allow `any` in test files.
 - Local `yarn coverage` prints a table; CI writes cobertura+json.
 
-**CI**
+#### CI
 
 - Extract shared setup into .github/actions/setup composite action.
 - Align actions/checkout@v6 + actions/setup-node@v6 across all jobs.
@@ -30,67 +29,24 @@ All notable changes to this project will be documented in this file. See [Conven
 - Merge testing.yml test + coverage into a single job.
 - Replace truncated updater.yml with a dogfooded run of this action.
 
-**Releases**
+#### Releases
+
 - Add @semantic-release/exec to push a floating major tag (vN) on
   each release.
 
-**Renovate**
+#### Renovate
+
 - Switch to config:best-practices; add ecosystem groups, dependency
   labels, yarnDedupeHighest postUpdateOption.
 - Validate renovate.json via lint-staged on commit.
 
-**Docs**
+#### Docs
 
 - Rewrite README: tagline, badges, quickstart, schedule example,
   outputs example, how-it-works, SemVer policy.
 - Replace markdown issue templates with YAML issue forms; route
   questions to Discussions.
 - New PULL_REQUEST_TEMPLATE structure and CONTRIBUTING.md.
-
-
-*upgrade to Node 24, Yarn 4.14.1, and major dependency versions ([#33](https://github.com/castastrophe/actions-pr-auto-update/issues/33)) ([b50cde2]())
-
-* feat!: upgrade to Node 24, Yarn 4.14.1, and major dependency versions
-
-- Bump Node runtime from 22 to 24 (action.yml `using: node24`, `.nvmrc`, `engines`)
-- Upgrade Yarn to 4.14.1 and bundle the release cjs in `.yarn/releases/`
-- Upgrade `@actions/core` 1.x → 3.x and `@actions/github` 6.x → 9.x
-- Upgrade `typescript` 5.x → 6.x, `eslint` 9.x → 10.x, `lint-staged` 16.x → 17.x
-- Upgrade `@commitlint/*` 20.x → 21.x, `jest` + `ts-jest` to latest
-- Migrate ESLint config from `.eslintrc.json` to flat `eslint.config.js`
-- Migrate `commitlint.config.js` and `jest.config.js` to ESM exports
-- Convert `.releaserc` JSON to `.releaserc.js` for richer semantic-release config
-- Add `markdownlint` config and tooling; add `eslint-plugin-jsonc`
-- Add `.env.example` and `@allons-y/envoy` for environment setup
-- Scope package name to `@allons-y/actions-pr-auto-update`
-- Fix optional chaining throughout `src/main.ts` for safer property access
-- Update CI workflows: use `node-version-file`, bump `actions/cache` + `actions/checkout` to v6
-- Improve `action.yml` input/output descriptions
-
-## [3.0.0](https://github.com/castastrophe/actions-pr-auto-update/compare/v2.0.0...v3.0.0) (2026-05-14)
-
-### ⚠ BREAKING CHANGES
-
-- upgrade to Node 24, Yarn 4.14.1, and major dependency versions (#33)
-
-### ✨ Features
-
-\*upgrade to Node 24, Yarn 4.14.1, and major dependency versions ([#33](https://github.com/castastrophe/actions-pr-auto-update/issues/33)) ([b50cde2](https://github.com/castastrophe/actions-pr-auto-update/commit/b50cde2148c9a3ab6c50c33eda1650debb204593))
-
-- Bump Node runtime from 22 to 24 (action.yml `using: node24`, `.nvmrc`, `engines`)
-- Upgrade Yarn to 4.14.1 and bundle the release cjs in `.yarn/releases/`
-- Upgrade `@actions/core` 1.x → 3.x and `@actions/github` 6.x → 9.x
-- Upgrade `typescript` 5.x → 6.x, `eslint` 9.x → 10.x, `lint-staged` 16.x → 17.x
-- Upgrade `@commitlint/*` 20.x → 21.x, `jest` + `ts-jest` to latest
-- Migrate ESLint config from `.eslintrc.json` to flat `eslint.config.js`
-- Migrate `commitlint.config.js` and `jest.config.js` to ESM exports
-- Convert `.releaserc` JSON to `.releaserc.js` for richer semantic-release config
-- Add `markdownlint` config and tooling; add `eslint-plugin-jsonc`
-- Add `.env.example` and `@allons-y/envoy` for environment setup
-- Scope package name to `@allons-y/actions-pr-auto-update`
-- Fix optional chaining throughout `src/main.ts` for safer property access
-- Update CI workflows: use `node-version-file`, bump `actions/cache` + `actions/checkout` to v6
-- Improve `action.yml` input/output descriptions
 
 ## [2.0.0](https://github.com/castastrophe/actions-pr-auto-update/compare/v1.0.0...v2.0.0) (2025-11-04)
 
