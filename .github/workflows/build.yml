@@ -21,21 +21,6 @@ jobs:
             - name: Run build
               run: yarn ci
 
-            # This step will evaluate the repo status and report the change
-            # If there are changes, capture the changes and upload them as an artifact
-            - name: Check if there are changes
-              shell: bash
-              run: |
-                  if [[ -z $(git status --porcelain) ]]; then
-                      echo "No changes detected"
-                      exit 0
-                  else
-                      echo "Changes detected"
-                      git status
-                      git add .
-                      exit 1
-                  fi
-
     lint:
         runs-on: ubuntu-latest
         steps:
