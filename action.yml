@@ -1,6 +1,6 @@
 name: Auto-update pull requests
 description: "Keep your pull requests up-to-date with a base branch ✨automatically✨"
-author: "Cassondra Roberts <castastrophe@users.noreply.github.com> (https://allons-y.llc)"
+author: "Cassondra Roberts <castastrophe@users.noreply.github.com> (https://allons-y.studio)"
 inputs:
     token:
         required: false
