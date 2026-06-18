@@ -24,7 +24,7 @@ body:
       description: Paste the relevant section of your `.github/workflows/*.yml` (or a minimal reproducer). Redact any secrets.
       render: yaml
       placeholder: |
-        - uses: castastrophe/actions-pr-auto-update@v3
+        - uses: allonsy-studio/actions-pr-auto-update@v3
           with:
             limit: 10
     validations:

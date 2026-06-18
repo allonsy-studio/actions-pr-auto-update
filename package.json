@@ -12,7 +12,7 @@
 	"contributors": [
 		"Max Komarychev"
 	],
-	"homepage": "https://github.com/castastrophe/actions-pr-auto-update#readme",
+	"homepage": "https://github.com/allonsy-studio/actions-pr-auto-update#readme",
 	"funding": [
 		{
 			"type": "github",
@@ -25,10 +25,10 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/castastrophe/actions-pr-auto-update.git"
+		"url": "git+https://github.com/allonsy-studio/actions-pr-auto-update.git"
 	},
 	"bugs": {
-		"url": "https://github.com/castastrophe/actions-pr-auto-update/issues"
+		"url": "https://github.com/allonsy-studio/actions-pr-auto-update/issues"
 	},
 	"type": "module",
 	"main": "bin/index.js",

@@ -12,6 +12,6 @@ jobs:
             pull-requests: write
         steps:
             - name: Auto-update open PRs targeting main
-              uses: castastrophe/actions-pr-auto-update@v3
+              uses: allonsy-studio/actions-pr-auto-update@v3
               with:
                   exclude_labels: renovate

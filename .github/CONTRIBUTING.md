@@ -1,7 +1,7 @@
 # Contributing
 
-[fork]: https://github.com/castastrophe/actions-pr-auto-update/fork
-[pr]: https://github.com/castastrophe/actions-pr-auto-update/compare
+[fork]: https://github.com/allonsy-studio/actions-pr-auto-update/fork
+[pr]: https://github.com/allonsy-studio/actions-pr-auto-update/compare
 [code-of-conduct]: CODE_OF_CONDUCT.md
 
 Welcome! I'm thrilled that you'd like to contribute to this project. Your help is essential to ensure it continues to meet the needs of the community.
@@ -12,8 +12,8 @@ Please note that this project is released with a [Contributor Code of Conduct][c
 
 ## Found a bug?
 
-- **Ensure the bug was not already reported** by searching on GitHub under [Issues](https://github.com/castastrophe/actions-pr-auto-update/issues).
-- If you're unable to find an open issue addressing the problem, [open a new one](https://github.com/castastrophe/actions-pr-auto-update/issues/new). Be sure to include a **title and clear description**, as much relevant information as possible, and a **code sample** or a **reproducible test case** demonstrating the expected behavior that is not occurring.
+- **Ensure the bug was not already reported** by searching on GitHub under [Issues](https://github.com/allonsy-studio/actions-pr-auto-update/issues).
+- If you're unable to find an open issue addressing the problem, [open a new one](https://github.com/allonsy-studio/actions-pr-auto-update/issues/new). Be sure to include a **title and clear description**, as much relevant information as possible, and a **code sample** or a **reproducible test case** demonstrating the expected behavior that is not occurring.
 - If possible, use the relevant bug report templates to create the issue.
 
 ## What should I know before submitting a pull request or issue

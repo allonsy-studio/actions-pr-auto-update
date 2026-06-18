@@ -2,8 +2,8 @@
 
 A configurable GitHub Action that keeps your open pull requests in sync with their base branch.
 
-[![Build](https://github.com/castastrophe/actions-pr-auto-update/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/castastrophe/actions-pr-auto-update/actions/workflows/build.yml)
-[![Testing](https://github.com/castastrophe/actions-pr-auto-update/actions/workflows/testing.yml/badge.svg?branch=main)](https://github.com/castastrophe/actions-pr-auto-update/actions/workflows/testing.yml)
+[![Build](https://github.com/allonsy-studio/actions-pr-auto-update/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/allonsy-studio/actions-pr-auto-update/actions/workflows/build.yml)
+[![Testing](https://github.com/allonsy-studio/actions-pr-auto-update/actions/workflows/testing.yml/badge.svg?branch=main)](https://github.com/allonsy-studio/actions-pr-auto-update/actions/workflows/testing.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 When you merge to `main` (or push to any long-lived branch), every open PR targeting that branch falls behind. This action picks them up and runs GitHub's "Update branch" API on each one, so your contributors don't have to. Bot PRs (Dependabot et al.), closed PRs, and — by default — drafts are skipped. Label-based include/exclude rules let you scope it further.
@@ -28,7 +28,7 @@ jobs:
             contents: read
             pull-requests: write
         steps:
-            - uses: castastrophe/actions-pr-auto-update@v3
+            - uses: allonsy-studio/actions-pr-auto-update@v3
 ```
 
 That's it. Defaults: 100 PRs/run, drafts skipped, no label filters, uses `github.token`.
@@ -50,7 +50,7 @@ jobs:
             pull-requests: write
         steps:
             - name: Update ALL THE PRS! 🎉
-              uses: castastrophe/actions-pr-auto-update@v3
+              uses: allonsy-studio/actions-pr-auto-update@v3
               with:
                   # Token used for API calls. Defaults to github.token.
                   # Override only if you need cross-repo access or a higher rate limit.
@@ -80,7 +80,7 @@ on:
 
 ```yaml
 - id: pr-update
-  uses: castastrophe/actions-pr-auto-update@v3
+  uses: allonsy-studio/actions-pr-auto-update@v3
 
 - name: Report results
   run: |
@@ -100,7 +100,7 @@ Defined in [`action.yml`](action.yml).
 | `include_labels` | Comma-separated list of labels. If set, at least one **must** be present on the pull request for it to be updated.                   |                |
 | `exclude_labels` | Comma-separated list of labels. If set, any match causes the pull request to be skipped.                                             |                |
 
-Have ideas for additional features? [Open an issue](https://github.com/castastrophe/actions-pr-auto-update/issues/new).
+Have ideas for additional features? [Open an issue](https://github.com/allonsy-studio/actions-pr-auto-update/issues/new).
 
 ## Outputs
 
@@ -138,7 +138,7 @@ GitHub's REST API is [rate-limited](https://docs.github.com/en/rest/overview/res
 
 ## Contributing
 
-Contributions are welcome! Please open an [issue](https://github.com/castastrophe/actions-pr-auto-update/issues/new) or submit a pull request.
+Contributions are welcome! Please open an [issue](https://github.com/allonsy-studio/actions-pr-auto-update/issues/new) or submit a pull request.
 
 ## License
 
