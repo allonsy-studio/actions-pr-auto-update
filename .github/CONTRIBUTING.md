@@ -24,6 +24,8 @@ Because of how GitHub Actions are run, the source code of this project is transp
 
 ## Submitting a pull request
 
+Pull requests are squash-merged: the PR title becomes the commit subject & the commit messages its body, so the title must be a valid Conventional Commits subject.
+
 1. [Fork][fork] and clone the repository.
 1. Configure and install the dependencies: `yarn install`.
 1. Create a new branch: `git checkout -b feat-my-branch-name`.
