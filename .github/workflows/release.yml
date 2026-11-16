@@ -4,27 +4,46 @@ on:
     push:
         branches: [main]
 
+permissions:
+    contents: write # push tags + create the GitHub release
+    pull-requests: write # changesets opens the "Version Packages" PR
+
+env:
+    GH_TOKEN: ${{ github.token }}
+
 jobs:
-    publish:
+    release:
         runs-on: ubuntu-latest
-        permissions: write-all
-        env:
-            GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
         steps:
+            - name: Create GitHub App token
+              id: app-token
+              uses: actions/create-github-app-token@v3
+              with:
+                  client-id: ${{ secrets.APP_CLIENT_ID }}
+                  private-key: ${{ secrets.APP_PRIVATE_KEY }}
+                  permission-contents: write
+                  permission-pull-requests: write
+
             - name: Check out code
               uses: actions/checkout@v6
               with:
-                  persist-credentials: false
+                  # Full history + tags to detect prior releases; the app token lets
+                  # the publish step push tags without re-auth.
+                  fetch-depth: 0
+                  token: ${{ steps.app-token.outputs.token }}
 
             - name: Setup
               uses: ./.github/actions/setup
 
-            - name: Run build
-              run: yarn ci
-
-            - name: Semantic release
-              uses: cycjimmy/semantic-release-action@v6
+            - name: Create release PR or publish the action
+              uses: changesets/action@v1
+              with:
+                  version: yarn run version
+                  publish: yarn release
+                  title: "chore(release): version packages"
+                  commit: "chore(release): version packages"
+                  commitMode: github-api
+                  createGithubReleases: false
               env:
-                  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-                  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+                  GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
