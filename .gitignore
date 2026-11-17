@@ -14,7 +14,7 @@ coverage/
 # Environment variables
 .env
 
-# Built files (rebuilt and committed by semantic-release during the Release workflow)
+# Built files (opx release builds bin/ and commits it onto the release tag only)
 bin/
 
 # Caches

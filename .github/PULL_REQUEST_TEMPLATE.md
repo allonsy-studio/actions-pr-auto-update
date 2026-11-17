@@ -20,5 +20,5 @@
 
 - [ ] Tests added or updated (`yarn test`)
 - [ ] Lint clean (`yarn lint`)
-- [ ] Documentation updated where relevant (README, action.yml — CHANGELOG is handled by semantic-release)
+- [ ] Documentation updated where relevant (README, action.yml — a changeset added for anything a consumer would notice; CHANGELOG is written from changesets)
 - [ ] Conventional commit format used (enforced by commitlint — see [CONTRIBUTING.md](CONTRIBUTING.md))

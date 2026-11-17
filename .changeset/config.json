@@ -1,0 +1,12 @@
+{
+	"$schema": "https://unpkg.com/@changesets/config@3.1.4/schema.json",
+	"access": "public",
+	"baseBranch": "main",
+	"changelog": [
+		"@allons-y/opx-release/changelog",
+		{
+			"repo": "allonsy-studio/actions-pr-auto-update"
+		}
+	],
+	"privatePackages": { "version": true, "tag": true }
+}
